@@ -1,29 +1,47 @@
 import React from 'react';
-import './styles/main.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useAuth } from './contexts/AuthContext'; 
+import { ThemeProvider } from './contexts/ThemeContext';
+import PrivateRoute from './components/PrivateRoute';
+import Navbar from './components/Navbar';
+import Dashboard from './Pages/Dashboard';
+import Login from './Pages/Login';
+import LogEntry from './Pages/LogEntry';
+import Reports from './Pages/Reports';
+import Profile from './Pages/Profile';
+import './styles/App.css';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="header">
-        <div className="container">
-          <nav className="nav">
-            <ul className="nav-list">
-              <li><a href="/" className="nav-link">Ana Sayfa</a></li>
-              <li><a href="/dashboard" className="nav-link">Dashboard</a></li>
-            </ul>
-          </nav>
+    const { user } = useAuth();
+  
+    return (
+      <Router>
+        <div className="app">
+          {user && <Navbar />}
+          <main className="main-content">
+            <Routes>
+              <Route 
+                path="/login" 
+                element={user ? <Navigate to="/" /> : <Login />} 
+              />
+              <Route 
+                path="/" 
+                element={user ? <Dashboard /> : <Navigate to="/login" />} 
+              />
+              <Route 
+                path="/profile" 
+                element={user ? <Profile /> : <Navigate to="/login" />} 
+              />
+              <Route 
+                path="/reports" 
+                element={user ? <Reports /> : <Navigate to="/login" />} 
+              />
+            </Routes>
+          </main>
         </div>
-      </header>
-
-      <main className="container">
-        <div className="home-hero">
-          <h1 className="mb-4">Sürücü Kayıt Uygulaması</h1>
-          <p className="mb-4">Sürücü kayıtlarınızı kolayca yönetin</p>
-          <button className="btn btn-primary">Başla</button>
-        </div>
-      </main>
-    </div>
-  );
-}
+      </Router>
+    );
+  }
+  
 
 export default App;
