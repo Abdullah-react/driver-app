@@ -1,0 +1,18 @@
+@use '../abstracts/variables' as vars;
+
+.nav {
+  &-list {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+  }
+
+  &-link {
+    color: vars.$dark-color;
+    text-decoration: none;
+    
+    &:hover {
+      color: vars.$primary-color;
+    }
+  }
+}

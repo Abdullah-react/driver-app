@@ -1,0 +1,15 @@
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mix;
+
+.dashboard {
+  padding: 2rem 0;
+  
+  &-grid {
+    display: grid;
+    gap: 1rem;
+    
+    @include mix.breakpoint(md) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}

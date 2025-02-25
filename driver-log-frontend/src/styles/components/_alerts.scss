@@ -1,0 +1,17 @@
+@use '../abstracts/variables' as vars;
+
+.alert {
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+
+  &-success {
+    background-color: #d4edda;
+    color: #155724;
+  }
+
+  &-error {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+}

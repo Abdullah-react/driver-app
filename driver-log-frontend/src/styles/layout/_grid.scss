@@ -1,0 +1,23 @@
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mix;
+
+.container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+
+  @include mix.breakpoint(sm) {
+    max-width: 540px;
+  }
+  @include mix.breakpoint(md) {
+    max-width: 720px;
+  }
+  @include mix.breakpoint(lg) {
+    max-width: 960px;
+  }
+  @include mix.breakpoint(xl) {
+    max-width: 1140px;
+  }
+}

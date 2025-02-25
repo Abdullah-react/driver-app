@@ -1,0 +1,9 @@
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mix;
+
+.home {
+  &-hero {
+    padding: 4rem 0;
+    text-align: center;
+  }
+}

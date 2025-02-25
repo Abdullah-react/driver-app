@@ -1,0 +1,49 @@
+@use '../abstracts/variables' as vars;
+
+// Margin & Padding Utilities
+@each $space-key, $space-value in vars.$spacing-scale {
+  // Margin
+  .m-#{$space-key} { margin: $space-value; }
+  .mt-#{$space-key} { margin-top: $space-value; }
+  .mb-#{$space-key} { margin-bottom: $space-value; }
+  .ml-#{$space-key} { margin-left: $space-value; }
+  .mr-#{$space-key} { margin-right: $space-value; }
+  .mx-#{$space-key} { 
+    margin-left: $space-value; 
+    margin-right: $space-value; 
+  }
+  .my-#{$space-key} { 
+    margin-top: $space-value; 
+    margin-bottom: $space-value; 
+  }
+
+  // Padding
+  .p-#{$space-key} { padding: $space-value; }
+  .pt-#{$space-key} { padding-top: $space-value; }
+  .pb-#{$space-key} { padding-bottom: $space-value; }
+  .pl-#{$space-key} { padding-left: $space-value; }
+  .pr-#{$space-key} { padding-right: $space-value; }
+  .px-#{$space-key} { 
+    padding-left: $space-value; 
+    padding-right: $space-value; 
+  }
+  .py-#{$space-key} { 
+    padding-top: $space-value; 
+    padding-bottom: $space-value; 
+  }
+}
+
+// Auto margins
+.m-auto { margin: auto; }
+.mt-auto { margin-top: auto; }
+.mb-auto { margin-bottom: auto; }
+.ml-auto { margin-left: auto; }
+.mr-auto { margin-right: auto; }
+.mx-auto { 
+  margin-left: auto; 
+  margin-right: auto; 
+}
+.my-auto { 
+  margin-top: auto; 
+  margin-bottom: auto; 
+}
