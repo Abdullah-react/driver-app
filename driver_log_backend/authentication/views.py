@@ -1,56 +1,82 @@
-from rest_framework import generics, permissions, status
+from rest_framework import status
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.models import User
-from .serializers import RegisterSerializer, ChangePasswordSerializer
+from django.contrib.auth import authenticate
+from rest_framework_simplejwt.tokens import RefreshToken
 
-class RegisterView(generics.CreateAPIView):
-    queryset = User.objects.all()
-    permission_classes = (permissions.AllowAny,)
-    serializer_class = RegisterSerializer
-
-class ChangePasswordView(generics.UpdateAPIView):
-    permission_classes = (permissions.IsAuthenticated,)
-    serializer_class = ChangePasswordSerializer
-
-    def update(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
-        # Check old password
-        if not request.user.check_password(serializer.data.get("old_password")):
+@api_view(['POST'])
+def register_user(request):
+    try:
+        email = request.data.get('email')
+        password = request.data.get('password')
+        name = request.data.get('name')
+        
+        if User.objects.filter(email=email).exists():
             return Response(
-                {"old_password": "Wrong password."},
+                {'error': 'Bu email adresi zaten kayıtlı!'}, 
                 status=status.HTTP_400_BAD_REQUEST
             )
 
-        # Set new password
-        request.user.set_password(serializer.data.get("new_password"))
-        request.user.save()
-
-        # Invalidate all existing tokens
-        RefreshToken.for_user(request.user)
-        
-        return Response(
-            {"message": "Password updated successfully"},
-            status=status.HTTP_200_OK
+        user = User.objects.create_user(
+            username=email,
+            email=email,
+            password=password,
+            first_name=name.split()[0],
+            last_name=name.split()[-1] if len(name.split()) > 1 else ''
         )
 
-class LogoutView(generics.GenericAPIView):
-    permission_classes = (permissions.IsAuthenticated,)
+        refresh = RefreshToken.for_user(user)
+        
+        return Response({
+            'status': 'success',
+            'message': 'Kullanıcı başarıyla oluşturuldu',
+            'tokens': {
+                'refresh': str(refresh),
+                'access': str(refresh.access_token),
+            },
+            'user': {
+                'email': user.email,
+                'name': user.get_full_name(),
+            }
+        })
 
-    def post(self, request):
-        try:
-            refresh_token = request.data["refresh_token"]
-            token = RefreshToken(refresh_token)
-            token.blacklist()
+    except Exception as e:
+        return Response(
+            {'error': str(e)}, 
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+@api_view(['POST'])
+def login_user(request):
+    try:
+        email = request.data.get('email')
+        password = request.data.get('password')
+
+        user = authenticate(username=email, password=password)
+        
+        if user is None:
             return Response(
-                {"message": "Successfully logged out."},
-                status=status.HTTP_200_OK
+                {'error': 'Geçersiz email veya şifre!'}, 
+                status=status.HTTP_401_UNAUTHORIZED
             )
-        except Exception:
-            return Response(
-                {"error": "Invalid token."},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+
+        refresh = RefreshToken.for_user(user)
+
+        return Response({
+            'status': 'success',
+            'tokens': {
+                'refresh': str(refresh),
+                'access': str(refresh.access_token),
+            },
+            'user': {
+                'email': user.email,
+                'name': user.get_full_name(),
+            }
+        })
+
+    except Exception as e:
+        return Response(
+            {'error': str(e)}, 
+            status=status.HTTP_400_BAD_REQUEST
+        )

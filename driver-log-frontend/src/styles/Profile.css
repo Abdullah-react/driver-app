@@ -1,0 +1,147 @@
+.profile-container {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .profile-avatar {
+    width: 128px;
+    height: 128px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .profile-card {
+    background-color: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .form-group label {
+    font-weight: 500;
+    color: var(--text-color);
+  }
+  
+  .form-group input {
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    background-color: var(--background-color);
+  }
+  
+  .form-group input:disabled {
+    background-color: #f3f4f6;
+    cursor: not-allowed;
+  }
+  
+  .profile-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+  }
+  
+  .edit-button,
+  .save-button,
+  .cancel-button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  
+  .edit-button {
+    background-color: var(--primary-color);
+    color: white;
+  }
+  
+  .save-button {
+    background-color: var(--success-color);
+    color: white;
+  }
+  
+  .cancel-button {
+    background-color: #e5e7eb;
+    color: var(--text-color);
+  }
+  
+  /* Dark Mode Styles */
+  .dark .profile-container {
+    background-color: #111827;
+    color: #e5e7eb;
+  }
+  
+  .dark .profile-card {
+    background-color: #1f2937;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
+  
+  .dark .form-group label {
+    color: #e5e7eb;
+  }
+  
+  .dark .form-group input {
+    background-color: #374151;
+    border-color: #4b5563;
+    color: #e5e7eb;
+  }
+  
+  .dark .form-group input:disabled {
+    background-color: #1f2937;
+  }
+  
+  .dark .cancel-button {
+    background-color: #374151;
+    color: #e5e7eb;
+  }
+  
+  @media (max-width: 640px) {
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .profile-actions {
+      flex-direction: column;
+    }
+  
+    .edit-button,
+    .save-button,
+    .cancel-button {
+      width: 100%;
+    }
+  }
